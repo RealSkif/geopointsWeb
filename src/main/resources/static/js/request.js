@@ -1,11 +1,12 @@
 //Слушатель для кнопки Найти
 document.getElementById('sendRequestButton').addEventListener('click', function () {
+    // validateRadiusInput();
     if (currentPlacemark) {
         var coords = currentPlacemark.geometry.getCoordinates();
         var radius = parseFloat(radiusInput.value);
 
-        if (isNaN(radius)) {
-            alert('Please enter a valid radius.');
+        if (isNaN(radius) || radius < 1 || radius > 50) {
+            alert('Укажите корректный радиус поиска (1 - 50 км)');
             return;
         }
 
@@ -18,7 +19,7 @@ document.getElementById('sendRequestButton').addEventListener('click', function 
         }
 
         if (apiEndpoints.length === 0) {
-            alert('Please select at least one option (GGS or GNS).');
+            alert('Укажите хотя бы одну из опций, пункты ГГС или пункты ГНС');
             return;
         }
         // Отправка запроса на geopoints
@@ -34,9 +35,11 @@ document.getElementById('sendRequestButton').addEventListener('click', function 
         });
         Promise.all(requests)
             .then(results => {
+                ggsData = [];
+                gnsData = [];
                 ggsData = results[0];
                 gnsData = results[1];
-                // Из map.js вызаем функцию вывода меток на карту
+                // Из map.js вызываем функцию вывода меток на карту
                 addPointsToMap(ggsData, gnsData);
             })
             .catch(error => {

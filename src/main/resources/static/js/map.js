@@ -44,7 +44,7 @@ function init() {
 //функция добавления меток на карту с пунктами, полученными из geopoints
 window.addPointsToMap = function (ggsData, gnsData) {
     map.geoObjects.removeAll();
-
+placemarks = [];
     // Отрисовка пунктов ГГС
     if (ggsData) {
         ggsData.forEach(point => {

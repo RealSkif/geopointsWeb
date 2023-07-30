@@ -1,5 +1,4 @@
-// Global variable accessible by other scripts
-var trackCoordinates = []; // Array to store track coordinates
+var trackCoordinates = [];
 
 // Слушатель кнопки "проложить маршрут"
 document.getElementById('addTrackButton').addEventListener('click', function () {
@@ -22,22 +21,19 @@ document.getElementById('clearTrackButton').addEventListener('click', function (
     trackCreationMode = false;
 });
 
-// Function to handle adding a point to the track
-
+// Функция добавления точек в маршрут
 function addPointToTrack(coords) {
-    console.log('addPointToTrack called');
-
     if (trackCreationMode) {
         trackCoordinates.push(coords);
 
-        // Remove the existing track polyline, if any
+        // Удаляем предыдуший маршрут, если он существует
         window.map.geoObjects.each(function (geoObject) {
             if (geoObject instanceof ymaps.Polyline) {
                 window.map.geoObjects.remove(geoObject);
             }
         });
 
-        // Draw the updated track as a polyline
+        // Создаем маршрут в виде полилинии
         var polyline = new ymaps.Polyline(trackCoordinates, {}, {
             strokeColor: '#0000FF',
             strokeWidth: 4
@@ -45,7 +41,6 @@ function addPointToTrack(coords) {
 
         map.geoObjects.add(polyline);
     } else {
-        // Rest of your existing code for handling placemarks on click
         if (currentPlacemark) {
             map.geoObjects.remove(currentPlacemark);
         }
@@ -59,14 +54,13 @@ function addPointToTrack(coords) {
         currentPlacemark = placemark;
     }
 }
-
+// Функция сохранения маршрута в kml
 function saveTrackAsKML(coordinates) {
     if (coordinates.length === 0) {
-        alert('The track is empty. Please add points to the track first.');
+        alert('Маршрут пустой. Для сохранения маршрут должен быть проложен');
         return;
     }
 
-    // Create a KML file with the track coordinates
     var kml = '<?xml version="1.0" encoding="UTF-8"?>\n' +
         '<kml xmlns="http://www.opengis.net/kml/2.2">\n' +
         '  <Document>\n' +
@@ -85,10 +79,10 @@ function saveTrackAsKML(coordinates) {
         '  </Document>\n' +
         '</kml>';
 
-    // Create a Blob from the KML content
+    // Создаем блоб из kml
     var blob = new Blob([kml], {type: 'application/vnd.google-earth.kml+xml'});
 
-    // Create a download link and trigger the download
+    // Отправляем блоб на скачку
     var downloadLink = document.createElement('a');
     downloadLink.href = URL.createObjectURL(blob);
     downloadLink.download = 'Track.kml';

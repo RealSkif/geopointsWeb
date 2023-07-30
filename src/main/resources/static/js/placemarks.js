@@ -1,6 +1,10 @@
 //Слушатель кнопки очистки карты
+var placemarks = [];
 document.getElementById('clearPlacemarksButton').addEventListener('click', function () {
     map.geoObjects.removeAll();
+    placemarks = [];
+    ggsData = [];
+    gnsData = [];
     currentPlacemark = null;
 });
 
@@ -12,7 +16,7 @@ document.getElementById('savePlacemarksButton').addEventListener('click', functi
 //Слушатель сохранения пунктов
 function savePlacemarksAsKML() {
     //собираем все пункты в один массив
-    var placemarks = [];
+
     if (ggsData) {
         placemarks.push(...ggsData);
     }
@@ -21,7 +25,7 @@ function savePlacemarksAsKML() {
     }
 
     if (placemarks.length === 0) {
-        alert('There are no placemarks to save.');
+        alert('Нет пунктов для сохранения');
         return;
     }
 
