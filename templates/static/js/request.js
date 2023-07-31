@@ -12,10 +12,10 @@ document.getElementById('sendRequestButton').addEventListener('click', function 
 
         var apiEndpoints = [];
         if (ggsCheckbox.checked) {
-            apiEndpoints.push('http://localhost:8081/ggs');
+            apiEndpoints.push('http://localhost:8080/ggs');
         }
         if (gnsCheckbox.checked) {
-            apiEndpoints.push('http://localhost:8081/gns');
+            apiEndpoints.push('http://localhost:8080/gns');
         }
 
         if (apiEndpoints.length === 0) {
